@@ -19,7 +19,20 @@ public class WordExtractorTest {
     //	Word def: Characters A-Z, a-z
     @Test public void itShouldExtractAZ() throws Exception {
 
-       assertThat(WordExtractor.extract("asd....")).isEqualTo("asd");
+        assertThat(WordExtractor.extract("cat...."))
+                .hasSize(1)
+                .contains("cat");
+
+        assertThat(WordExtractor.extract("dog, hello."))
+                .hasSize(2)
+                .contains("dog", "hello");
+
+
+        assertThat(WordExtractor.extract("cat,              love  dog."))
+                .hasSize(3)
+                .contains("cat", "love", "dog");
+
+
     }
 
 

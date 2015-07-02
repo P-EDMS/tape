@@ -16,7 +16,7 @@ public class WordExtractorTest {
 
 
 
-    //	3.0.1 Characters A-Z, a-z
+    //	Word def: Characters A-Z, a-z
     @Test public void itShouldExtractAZ() throws Exception {
 
        assertThat(WordExtractor.extract("asd....")).isEqualTo("asd");

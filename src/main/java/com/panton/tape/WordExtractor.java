@@ -8,12 +8,13 @@ import java.util.List;
  */
 public class WordExtractor {
 
-    private static final int WORD_LIMIT = 20; // one file system block
+    private static final int WORD_MAX_LIMIT = 20; // one file system block
+    private static final int WORD_MIN_LIMIT = 3;
 
     public static List<String> extract(String input) {
 
         List<String> result = new ArrayList<String>();
-        StringBuilder word = new StringBuilder(WORD_LIMIT); //more efficient
+        StringBuilder word = new StringBuilder(WORD_MAX_LIMIT); //more efficient
         char c = ' ';
 
         boolean isLastChar = false;
@@ -27,11 +28,13 @@ public class WordExtractor {
                 isLastChar = input.length() == (i + 1);
                 word.append(c);
                 STATE_EOW = false || isLastChar;
-            } else if (word.length() > 0) {
+            } else if (word.length() >= WORD_MIN_LIMIT) {
                 STATE_EOW = true;
+            } else {
+              word.setLength(0); //empty it
             }
 
-            if(STATE_EOW && word.length() > 0) {
+            if(STATE_EOW && word.length() >= WORD_MIN_LIMIT) {
                 STATE_EOW = false;
                 System.out.println("word added:" + word);
 

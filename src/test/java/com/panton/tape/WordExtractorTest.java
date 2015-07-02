@@ -63,7 +63,15 @@ public class WordExtractorTest {
 
     }
 
-    @Test public void ignoreWordLengthLessThan2() throws Exception {
+    @Test public void ignoreWordLengthLessThan3() throws Exception {
+        assertThat(WordExtractor.extract("I am a Female."))
+                .hasSize(1)
+                .contains("Female");
+
+        assertThat(WordExtractor.extract("I will be back as a Man.. .    "))
+                .hasSize(3)
+                .contains("will", "back", "Man");
+
     }
 
 }

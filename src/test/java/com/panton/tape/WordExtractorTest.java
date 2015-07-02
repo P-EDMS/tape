@@ -60,7 +60,9 @@ public class WordExtractorTest {
 
 
     @Test public void itShouldExtractFloatingNumbers() throws Exception {
-
+        assertThat(WordExtractor.extract("1.00"))
+                .hasSize(1)
+                .contains("1.00")
     }
 
     @Test public void ignoreWordLengthLessThan3() throws Exception {
@@ -71,7 +73,6 @@ public class WordExtractorTest {
         assertThat(WordExtractor.extract("I will be back as a Man.. .    "))
                 .hasSize(3)
                 .contains("will", "back", "Man");
-
     }
 
 }

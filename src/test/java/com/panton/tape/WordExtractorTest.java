@@ -28,9 +28,9 @@ public class WordExtractorTest {
                 .contains("dog", "hello");
 
 
-        assertThat(WordExtractor.extract("cat,              love  dog."))
+        assertThat(WordExtractor.extract("CAT,              LOVE  Dog."))
                 .hasSize(3)
-                .contains("cat", "love", "dog");
+                .contains("CAT", "LOVE", "Dog");
 
 
     }

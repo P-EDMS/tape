@@ -63,4 +63,7 @@ public class WordExtractorTest {
 
     }
 
+    @Test public void ignoreWordLengthLessThan2() throws Exception {
+    }
+
 }

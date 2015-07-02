@@ -19,7 +19,7 @@ public class WordExtractorTest {
     //word: [A-Za-z]
     @Test public void itShouldExtractAZ() throws Exception {
 
-        assertThat(WordExtractor.extract("cat...."))
+        assertThat(WordExtractor.extract("cat..."))
                 .hasSize(1)
                 .contains("cat");
 
@@ -60,17 +60,46 @@ public class WordExtractorTest {
 
 
     @Test public void itShouldExtractFloatingNumbers() throws Exception {
-        assertThat(WordExtractor.extract("1.00"))
+        assertThat(WordExtractor.extract("1.000"))
                 .hasSize(1)
-                .contains("1.00")
+                .contains("1.000");
+
+        assertThat(WordExtractor.extract("15055.0"))
+                .hasSize(1)
+                .contains("15055.0");
+
+        assertThat(WordExtractor.extract("15055.0500."))
+                .hasSize(1)
+                .contains("15055.0500");
+
+
+        //ask jim
+        assertThat(WordExtractor.extract(".111212121"))
+                .hasSize(1)
+                .contains(".111212121");
+        assertThat(WordExtractor.extract(".1771."))
+                .hasSize(1)
+                .contains(".1771");
+
+
+        //float and int
+        assertThat(WordExtractor.extract(".1771.8888 111 33.33"))
+                .hasSize(4)
+                .contains(".1771", "8888", "111", "33.33");
+
+
+        //float and int and alphabet
+        assertThat(WordExtractor.extract("1111.aa.99999   fun very.good RM.111.RM199.11"))
+                .hasSize(7)
+                .contains("1111", "99999", "fun", "very", "good", "111", "RM199.11");
     }
 
     @Test public void ignoreWordLengthLessThan3() throws Exception {
-        assertThat(WordExtractor.extract("I am a Female."))
+        assertThat(WordExtractor.extract("I am a Female. "))
                 .hasSize(1)
                 .contains("Female");
 
-        assertThat(WordExtractor.extract("I will be back as a Man.. .    "))
+        assertThat(WordExtractor.extract("I will be back as a Man.. .. ...    "))
                 .hasSize(3)
                 .contains("will", "back", "Man");
     }

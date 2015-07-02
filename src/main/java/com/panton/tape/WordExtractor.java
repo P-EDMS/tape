@@ -19,23 +19,47 @@ public class WordExtractor {
 
         boolean isLastChar = false;
         boolean STATE_EOW = false; //end of word
+        boolean STATE_FLOAT = false;
 
         for(int i = 0; i < input.length(); i++) {
 
             c = input.charAt(i);
+            isLastChar = input.length() == (i + 1);
             if(Character.isLetter(c) || Character.isDigit(c)) {
-                System.out.println("char:" + c + ", isLastChar:" + isLastChar);
-                isLastChar = input.length() == (i + 1);
+
                 word.append(c);
+
                 STATE_EOW = false || isLastChar;
+            } else if(c == '.' && !STATE_FLOAT && !isLastChar && Character.isDigit(input.charAt(i+1))) {
+
+                System.out.println(".....................................who came in 1st:.............: " + c);
+
+                if((word.length() > 0  && !Character.isLetter(word.charAt(word.length() - 1))) || word.length() == 0) {
+                    System.out.println(".....................................who came in 2nd............. " + c);
+
+                    word.append(c);
+                    STATE_FLOAT = true;
+                }else {
+                    //unfortunately, for those uncaught element who get in
+                    STATE_FLOAT = false;
+
+                    word.setLength(0); //empty it
+                }
+                STATE_EOW = false;
+
+
             } else if (word.length() >= WORD_MIN_LIMIT) {
                 STATE_EOW = true;
             } else {
-              word.setLength(0); //empty it
+                STATE_EOW = false;
+                STATE_FLOAT = false;
+
+                word.setLength(0); //empty it
             }
 
             if(STATE_EOW && word.length() >= WORD_MIN_LIMIT) {
                 STATE_EOW = false;
+                STATE_FLOAT = false;
                 System.out.println("word added:" + word);
 
                 result.add(word.toString());

@@ -14,10 +14,10 @@ public class WordExtractor {
         for(int i = 0; i< input.length(); i++) {
             tmp = input.charAt(i);
             if(Character.isLetter(tmp)) {
-                return "as";
+                return "asd";
             }
         }
-        return "as";
+        return "asd";
 
     }
 }

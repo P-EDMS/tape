@@ -8,23 +8,35 @@ import java.util.List;
  */
 public class WordExtractor {
 
-
+    private static final int WORD_LIMIT = 20; // one file system block
 
     public static List<String> extract(String input) {
 
         List<String> result = new ArrayList<String>();
-        String word = "";
+        StringBuilder word = new StringBuilder(WORD_LIMIT); //more efficient
         char c = ' ';
 
-        for(int i = 0; i< input.length(); i++) {
+        boolean isLastChar = false;
+        boolean STATE_EOW = false; //end of word
+
+        for(int i = 0; i < input.length(); i++) {
 
             c = input.charAt(i);
-            if(Character.isLetter(c)) {
-                word += c;
+            if(Character.isLetter(c) || Character.isDigit(c)) {
+                System.out.println("char:" + c + ", isLastChar:" + isLastChar);
+                isLastChar = input.length() == (i + 1);
+                word.append(c);
+                STATE_EOW = false || isLastChar;
+            } else if (word.length() > 0) {
+                STATE_EOW = true;
             }
-            else if(word.length() != 0){
-                result.add(word);
-                word = "";
+
+            if(STATE_EOW && word.length() > 0) {
+                STATE_EOW = false;
+                System.out.println("word added:" + word);
+
+                result.add(word.toString());
+                word.setLength(0); //empty it
             }
         }
 

@@ -16,7 +16,7 @@ public class WordExtractorTest {
 
 
 
-    //	Word def: Characters A-Z, a-z
+    //word: [A-Za-z]
     @Test public void itShouldExtractAZ() throws Exception {
 
         assertThat(WordExtractor.extract("cat...."))
@@ -28,14 +28,34 @@ public class WordExtractorTest {
                 .contains("dog", "hello");
 
 
-        assertThat(WordExtractor.extract("CAT,              LOVE  Dog."))
+        assertThat(WordExtractor.extract("CAT,              LOVE  Dog"))
                 .hasSize(3)
                 .contains("CAT", "LOVE", "Dog");
 
-
     }
 
+    //word: [0-9]
+    @Test public void itShouldExtractDigits() throws Exception {
 
+        assertThat(WordExtractor.extract("450"))
+                .hasSize(1)
+                .contains("450");
 
+        assertThat(WordExtractor.extract("0123, 3819,   450"))
+                .hasSize(3)
+                .contains("0123", "3819", "450");
+    }
+
+    //word: [A-Za-z0-9]
+    @Test public void itShouldExtractAlphaNumeric() throws Exception {
+
+        assertThat(WordExtractor.extract("Rm450"))
+                .hasSize(1)
+                .contains("Rm450");
+
+        assertThat(WordExtractor.extract("RM12300 ,:::;. AlPha690,   MH3600"))
+                .hasSize(3)
+                .contains("RM12300", "AlPha690", "MH3600");
+    }
 
 }

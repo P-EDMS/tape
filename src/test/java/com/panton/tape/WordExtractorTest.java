@@ -58,4 +58,9 @@ public class WordExtractorTest {
                 .contains("RM12300", "AlPha690", "MH3600");
     }
 
+
+    @Test public void itShouldExtractFloatingNumbers() throws Exception {
+
+    }
+
 }

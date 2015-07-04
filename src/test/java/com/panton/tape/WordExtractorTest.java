@@ -14,10 +14,8 @@ public class WordExtractorTest {
 
     }
 
-
-
     //word: [A-Za-z]
-    @Test public void itShouldExtractAZ() throws Exception {
+    @Test public void itShouldExtractLetters() throws Exception {
 
         assertThat(WordExtractor.extract("cat..."))
                 .hasSize(1)
@@ -58,7 +56,6 @@ public class WordExtractorTest {
                 .contains("RM12300", "AlPha690", "MH3600");
     }
 
-
     @Test public void itShouldExtractFloatingNumbers() throws Exception {
         assertThat(WordExtractor.extract("1.000"))
                 .hasSize(1)
@@ -72,7 +69,6 @@ public class WordExtractorTest {
                 .hasSize(1)
                 .contains("15055.0500");
 
-
         //ask jim
         assertThat(WordExtractor.extract(".111212121"))
                 .hasSize(1)
@@ -80,18 +76,21 @@ public class WordExtractorTest {
         assertThat(WordExtractor.extract(".1771."))
                 .hasSize(1)
                 .contains(".1771");
+    }
 
+
+    @Test public void itShouldExtractAllCombinatory_Letter_Float_Numeric() throws Exception {
 
         //float and int
         assertThat(WordExtractor.extract(".1771.8888 111 33.33"))
                 .hasSize(4)
                 .contains(".1771", "8888", "111", "33.33");
 
-
-        //float and int and alphabet
+        //float and int and letter and alpha-numeric
         assertThat(WordExtractor.extract("1111.aa.99999   fun very.good RM.111.RM199.11"))
                 .hasSize(7)
                 .contains("1111", "99999", "fun", "very", "good", "111", "RM199.11");
+
     }
 
     @Test public void ignoreWordLengthLessThan3() throws Exception {
